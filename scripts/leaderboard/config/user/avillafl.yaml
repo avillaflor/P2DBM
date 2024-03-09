@@ -1,0 +1,3 @@
+working_dir: /home/scratch/avillafl/multi-agent-planning
+carla_path: /home/scratch/avillafl/carla910
+plant_dir: /home/scratch/avillafl/plant

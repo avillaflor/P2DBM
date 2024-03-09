@@ -1,0 +1,62 @@
+exp_name: seed0_plant
+project_name: merge_scenarios_plant
+
+batch_size: 128 # appropriate batch size if running on 1 gpu
+num_epochs: 50
+
+training:
+  learning_rate: 1e-4
+  betas: [0.9, 0.95]
+  weight_decay: 0.1 # only applied on matmul weights
+  ckpt_path: log/
+  pred_len: 4
+  seq_len: 1
+  max_NextRouteBBs: 2 # max 10 prevents really high ids if route is long
+  input_ego: False
+  remove_velocity: None # input
+  route_only_wp: False # True
+  remove_back: False
+  pretraining_path: none
+
+pre_training:
+  pretraining: forecast #none
+  multitask: True
+  forecastLoss_weight: 1
+  future_timestep: 1
+  quantize: True
+  precision_pos: 7 # 7: 0.5meters
+  precision_speed: 4 # 4: 3.75km/h
+  precision_angle: 5 # 5: 11.25degrees
+
+network:
+  hf_checkpoint: prajjwal1/bert-medium #prajjwal1/bert-tiny, prajjwal1/bert-mini, prajjwal1/bert-small, prajjwal1/bert-medium
+  embd_pdrop: 0.1
+
+lrDecay_epoch: 46
+seed: 0
+
+# our parameters
+save_gif: False
+gpu: ???
+save_checkpoints: True
+checkpoint_freq: 10
+logging_dir: 'logs/${project_name}/${exp_name}'
+model_savedir: '${logging_dir}/${now:%Y-%m-%d_%H-%M-%S}/checkpoints'
+
+num_workers: 36
+
+trainer:
+    strategy: 'ddp'
+    devices: ${gpu}
+    accelerator: 'gpu'
+    gradient_clip_val: 1.0
+    default_root_dir: 'logs'
+
+train_dataset:
+    path: 'datasets/merge_scenarios/'
+
+val_dataset:
+    path: 'datasets/merge_scenarios_valid/'
+
+model_checkpoint: ''
+scenario: 31

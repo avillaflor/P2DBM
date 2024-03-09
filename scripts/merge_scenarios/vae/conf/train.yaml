@@ -1,0 +1,80 @@
+exp_name: seed0_vae32_beta001
+project_name: merge_scenarios_vae
+
+logging_dir: 'logs/${project_name}/${exp_name}'
+
+save_gif: False
+save_checkpoints: True
+checkpoint_freq: 10
+
+gpu: ???
+num_workers: 36
+seed: 0
+
+batch_size: 96 # appropriate batch size if running on 1 gpu
+f: 1 # frequency
+T: 8 # prediction horizon
+H: 1 # history length (only H=1 is properly implemented)
+num_epochs: 100
+
+train_dataset:
+    path: 'datasets/merge_scenarios/'
+
+val_dataset:
+    path: 'datasets/merge_scenarios_valid/'
+
+trainer:
+    precision: 16
+    strategy: 'ddp_find_unused_parameters_false'
+    devices: ${gpu}
+    accelerator: 'gpu'
+    limit_val_batches: 128
+    gradient_clip_val: 1.0
+    default_root_dir: 'logs'
+
+model:
+    # new vae parameters
+    vae_dim: 32
+    vae_beta: 0.01
+    num_vae_enc_layers: 4
+    num_map_pts: 20000
+    num_local_pts: 50
+    num_route_pts: 20
+    route_downsample: 10
+    T: ${T}
+    H: ${H}
+    f: ${f}
+    dt: 0.5
+    emb_dim: 128
+    num_enc_layers: 4
+    num_dec_layers: 4
+    num_map_enc_layers: 0
+    num_heads: 8
+    tx_hidden_factor: 4
+    activation: 'gelu'
+    dropout: 0.1
+    lr: 2.e-4
+    betaW: 0.95
+    lr_decay: 0.0
+    warmup_steps: 0
+    min_std: 0.01
+    wd: 0.1
+    norm_first: True
+    carla_maps_path: 'maps/'
+    max_token_distance: 50.
+    max_z_distance: 7.5
+    pid_type: 'scenarios'
+    # planner parameters
+    speed_coeff: 1.
+    coll_coeff: 20.
+    route_coeff: 0.1
+    red_speed_coeff: 0.
+
+hydra:
+    run:
+        dir: '${logging_dir}/${now:%Y-%m-%d_%H-%M-%S}'
+
+model_savedir: '${logging_dir}/${now:%Y-%m-%d_%H-%M-%S}/checkpoints'
+model_checkpoint: ''
+
+scenario: 31

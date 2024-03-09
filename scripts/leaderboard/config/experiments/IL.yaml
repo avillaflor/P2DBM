@@ -1,0 +1,31 @@
+name: IL
+
+SHUFFLE_WEATHER: 0
+DATAGEN: 0
+
+map_precision: 2.
+max_token_radius: 50.
+max_route_radius: 150.
+
+agent: ${user.working_dir}/src/carla/leaderboard/model_agent.py
+
+agent_root: ${user.working_dir}
+agent_config: ${experiments.agent_root}/scripts/leaderboard/ours/conf/train.yaml
+
+exp_name: seed0_IL
+project_name: leaderboard_ours
+
+data_save_path_rel: logs/${experiments.project_name}/${experiments.exp_name}
+data_save_path: ${user.working_dir}/${experiments.data_save_path_rel}
+
+gpu: 0
+seed: 0
+
+model_checkpoint: ''
+
+camera_pos: [3.0, 0.0, 20.0]  #x, y, z mounting position of the camera
+camera_rot_0: [0.0, 270.0, 0.0]  # Roll Pitch Yaw of camera 0 in degree
+
+camera_width: 128  # Camera width in pixel during data collection
+camera_height: 128  # Camera height in pixel during data collection
+camera_fov_data_collection: 90

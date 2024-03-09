@@ -1,0 +1,35 @@
+defaults:
+  - user: avillafl
+  - experiments: closed_plan
+  - eval: train
+
+save_gif: False
+
+host: localhost
+port: 2000
+trafficManagerPort: 8000
+trafficManagerSeed: 0
+dataProviderSeed: 0
+debug: 0
+viz: 0
+record: ''
+timeout: 600.0
+
+hydra:
+  run:
+    # dir: ${experiments.agent_root}/${save_path}
+    dir: ${experiments.agent_root}
+
+repetitions: 1
+track: MAP
+resume: 0
+# save_path: logs/IL_planner
+save_path: logs/${experiments.project_name}/${experiments.exp_name}
+
+# log_save_path: result_logs
+log_save_path: ${experiments.agent_root}/${save_path}/result_logs
+checkpoint_file: results.json
+checkpoint: ${experiments.agent_root}/${save_path}/${checkpoint_file}
+
+DEBUG_CHALLENGE: 0
+CUDA_VISIBLE_DEVICES: 0

@@ -1,0 +1,15 @@
+name: datagen
+
+SHUFFLE_WEATHER: 1
+DATAGEN: 1
+SAVE_SENSORS: 0
+
+agent: ${user.working_dir}/src/carla/leaderboard/data_agent.py
+data_save_path_rel: datasets/leaderboard/dataset
+data_save_path: ${user.working_dir}/${experiments.data_save_path_rel}
+agent_root: ${user.working_dir}
+agent_config: ${experiments.agent_root}/log/
+
+map_precision: 2.
+max_token_radius: 50.
+max_route_radius: 150.
